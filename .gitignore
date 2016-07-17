@@ -35,3 +35,11 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# google api stuff
+client_secret.json
+
+# Project-specific
+
+# using a symlink to my own iCloud files for this
+Journal

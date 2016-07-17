@@ -1,0 +1,38 @@
+{
+  "name": "wordcount-to-google-calendar",
+  "engines": {
+    "node": ">=4"
+  },
+  "version": "0.0.1",
+  "keywords": [
+    "javascript",
+    "bash",
+    "google-calendar-api",
+    "utility"
+  ],
+  "description": "hacky script for pushing my daily journal wordcount into a google calendar event",
+  "repository": "kalupa/wordcount-to-google-calendar",
+  "main": "app.js",
+  "dependencies": {
+    "google-auth-library": "0.9.8",
+    "googleapis": "11.0.0"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "mocha": "2.5.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Kalupnieks <paul@karrupa.com> (http://pau.lk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalupa/wordcount-to-google-calendar/issues"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "app.js",
+    "package.json"
+  ]
+}
