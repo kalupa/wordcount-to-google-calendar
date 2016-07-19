@@ -19,7 +19,7 @@ except ImportError:
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+SCOPES = 'https://www.googleapis.com/auth/calendar'
 CLIENT_SECRET_FILE = 'data/client_secret.json'
 APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
@@ -63,18 +63,18 @@ def main():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
-    eventsResult = service.events().list(
-        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-        orderBy='startTime').execute()
-    events = eventsResult.get('items', [])
-
-    if not events:
-        print('No upcoming events found.')
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
+    date_for_count = '2016-07-19'
+    word_count = str(1234)
+    
+    new_event = {
+        "end": {"date": date_for_count},
+        "start": {"date": date_for_count},
+        "summary": word_count + ' Words'
+    }
+    result = service.events().insert(calendarId='primary', body=new_event).execute()
+    
+    print('Posted %s' % result.get('summary'), result['start']['date'])
+    
 
 
 if __name__ == '__main__':
