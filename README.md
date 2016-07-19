@@ -11,3 +11,6 @@ So far this is just a heavily modified version of the sample code from the Googl
 ### 2016-07-18 
 Sadly there's not really a simple way to run the JS code as it exists here on iOS without basically building an entire iOS app in phonegap. Seems like overkill for a simple utility.
 Tested the "read" from calendar api in Python. I'm interested in getting the this working with Pythonista so I can just run the script as a "share sheet" on iOS. I've found a way to install `pip` modules in it but I'm getting a runtime error when it runs that looks like it's a problem with load paths for the modules. Not experienced enough with Python to know quickly how to fix it. Will return to see if I can muddle it out later.
+
+### 2016-07-19
+Managed to get the python to work. Not really 100% of the time, sometimes when it's doing the oauth setup it fails to properly detect that it can't open a web browser with the oauth2 client. That's fine, usually running it again will prompt for the token via a manual request. It now posts hard-coded data into the default calendar! I'll merge a wordcounter with this and then be able to run it from the share sheet and post into the correct calendar. I wonder how I can safely store the calendar id somewhere other than the source code itself.
