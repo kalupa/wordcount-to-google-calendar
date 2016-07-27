@@ -1,4 +1,4 @@
-#!python2
+#!python3
 # coding: utf-8
 
 from __future__ import print_function
@@ -78,10 +78,12 @@ def insert_daily_word_count_event(text):
 
 def get_text():
     if not appex.is_running_extension():
-#        print('This script is intended to be run from the sharing extension.')
-#        return
-        print('Running in Pythonista app, using test data...\n')
-        return '# 02016-07-19\n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        print('This script is intended to be run from the sharing extension.')
+        return
+        #print('Running in Pythonista app, using test data...\n')
+        #today = date.today().strftime('%Y-%m-%d')
+        #text = '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
+        #return text
     else:
         return appex.get_text()
             
