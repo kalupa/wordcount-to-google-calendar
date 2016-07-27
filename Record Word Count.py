@@ -66,26 +66,44 @@ def create_events_api_object():
     service = discovery.build('calendar', 'v3', http=http)
     return service.events()
 
+def _test_event_response(event):
+    import time
+    time.sleep(3)
+    return word_count_event
+    
+def event_response(event):
+    events = create_events_api_object()
+    query = events.insert(calendarId=get_calendarid(), body=word_count_event)
+    return query.execute()
+            
 def insert_daily_word_count_event(text):
     word_count_event = create_calendar_event_from_text(text)
     
     if appex.is_running_extension():
-        events = create_events_api_object()
-        query = events.insert(calendarId=get_calendarid(), body=word_count_event)
-        return query.execute()
+        return event_response(word_count_event)
     else:
-        return word_count_event
+        return _test_event_response(word_count_event)
 
+def _test_text():
+    from datetime import date
+    print('Running in Pythonista app, using test data...\n')
+    today = date.today().strftime('%Y-%m-%d')
+    return '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
+
+def show_share_warning():
+    print('This script is intended to be run from the sharing extension.')
+    return
+    
+def real_text():
+    print('Running ...')
+    return appex.get_text()
+    
 def get_text():
     if not appex.is_running_extension():
-        print('This script is intended to be run from the sharing extension.')
-        return
-        #print('Running in Pythonista app, using test data...\n')
-        #today = date.today().strftime('%Y-%m-%d')
-        #text = '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
-        #return text
+        return show_share_warning()        
+        #return _test_text()
     else:
-        return appex.get_text()
+        return real_text()
             
 def main():
     text = get_text()
