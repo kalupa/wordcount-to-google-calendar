@@ -20,6 +20,7 @@ from oauth2client import tools
 # pythonista modules
 import appex
 import clipboard
+from console import hud_alert
 
 # If modifying these scopes, delete your previously saved credentials
 SCOPES = 'https://www.googleapis.com/auth/calendar'
@@ -69,11 +70,11 @@ def create_events_api_object():
 def _test_event_response(event):
     import time
     time.sleep(3)
-    return word_count_event
+    return event
     
 def event_response(event):
     events = create_events_api_object()
-    query = events.insert(calendarId=get_calendarid(), body=word_count_event)
+    query = events.insert(calendarId=get_calendarid(), body=event)
     return query.execute()
             
 def insert_daily_word_count_event(text):
@@ -86,32 +87,30 @@ def insert_daily_word_count_event(text):
 
 def _test_text():
     from datetime import date
-    print('Running in Pythonista app, using test data...\n')
+    hud_alert('Running with test data ...\n', 'success', 1)
     today = date.today().strftime('%Y-%m-%d')
     return '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
 
 def show_share_warning():
-    print('This script is intended to be run from the sharing extension.')
+    hud_alert('This script is intended to be run from the sharing extension', 'error')
     return
     
 def real_text():
-    print('Running ...')
+    hud_alert('Running ...', 'success', 1)
     return appex.get_text()
     
-def get_text():
+def main():
     if not appex.is_running_extension():
         return show_share_warning()        
-        #return _test_text()
+        #text = _test_text()
     else:
-        return real_text()
-            
-def main():
-    text = get_text()
+        text = real_text()
+        
     if text:
         result = insert_daily_word_count_event(text)
-        print('Posted %s' % result['summary'], result['start']['date'])        
+        hud_alert('Posted %s' % result['summary'], result['start']['date'])        
     else:
-        print('No input text found.')
+        hud_alert('No input text found', 'error')
 
 if __name__ == '__main__':
     main()
