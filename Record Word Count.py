@@ -3,8 +3,8 @@
 
 from __future__ import print_function
 from __future__ import absolute_import
+from datetime import datetime
 import argparse
-import datetime
 import httplib2
 import json
 import os
@@ -40,6 +40,9 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
+def get_completion_time():
+    return datetime.now().strftime('%H:%M')
+
 def count_words(text):    
     stripped_text = text.strip(string.punctuation)
     return len(stripped_text.split())
@@ -58,7 +61,8 @@ def create_calendar_event_from_text(text):
     return {
         "end": event_date,
         "start": event_date,
-        "summary": '%i Words' % count_words(text)
+        "summary": '%i Words' % count_words(text),
+        "description": 'Completed %s' % get_completion_time()
     }   
     
 def create_events_api_object():
@@ -69,6 +73,7 @@ def create_events_api_object():
 
 def _test_event_response(event):
     import time
+    print(event)
     time.sleep(3)
     return event
     
@@ -86,9 +91,8 @@ def insert_daily_word_count_event(text):
         return _test_event_response(word_count_event)
 
 def _test_text():
-    from datetime import date
     hud_alert('Running with test data ...\n', 'success', 1)
-    today = date.today().strftime('%Y-%m-%d')
+    today = datetime.now().strftime('%Y-%m-%d')
     return '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
 
 def show_share_warning():
@@ -101,8 +105,8 @@ def real_text():
     
 def main():
     if not appex.is_running_extension():
-        return show_share_warning()        
-        #text = _test_text()
+        #return show_share_warning()        
+        text = _test_text()
     else:
         text = real_text()
         
