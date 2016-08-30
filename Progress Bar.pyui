@@ -1,0 +1,37 @@
+[
+  {
+    "selected" : false,
+    "frame" : "{{0, 0}, {540, 540}}",
+    "class" : "View",
+    "nodes" : [
+      {
+        "selected" : false,
+        "frame" : "{{6, 6}, {528, 100}}",
+        "class" : "Label",
+        "nodes" : [
+
+        ],
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 24,
+          "frame" : "{{195, 254}, {150, 32}}",
+          "uuid" : "940D9B38-7F42-4219-A67A-B50EB2CD89BC",
+          "text" : "Sending ...",
+          "alignment" : "center",
+          "class" : "Label",
+          "number_of_lines" : 1,
+          "name" : "titlelabel",
+          "font_name" : "<System-Bold>"
+        }
+      }
+    ],
+    "attributes" : {
+      "custom_class" : "ProgressBar",
+      "enabled" : true,
+      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+      "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "flex" : ""
+    }
+  }
+]
