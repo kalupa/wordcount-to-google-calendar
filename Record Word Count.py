@@ -22,14 +22,17 @@ import appex
 import clipboard
 from console import hud_alert
 
-# If modifying these scopes, delete your previously saved credentials
-SCOPES = 'https://www.googleapis.com/auth/calendar'
-CLIENT_SECRET_FILE = 'data/client_secret.json'
 APPLICATION_NAME = 'Daily Word Count Logger'
 
+SCOPES = 'https://www.googleapis.com/auth/calendar'
+BASE_DIR = os.path.expanduser('~')
+DATA_PATH = os.path.join(BASE_DIR, 'Documents/data')
+CLIENT_SECRET_FILE = os.path.join(DATA_PATH, 'client_secret.json')
+CREDENTIAL_PATH = os.path.join(DATA_PATH, 'credentials-calendar.json')
+CALENDAR_CONFIG = os.path.join(DATA_PATH, 'calendar.json')
+    
 def get_credentials():
-    credential_path = ('data/credentials-calendar.json')
-    store = ofile.Storage(credential_path)
+    store = ofile.Storage(CREDENTIAL_PATH)
     credentials = store.get()
     
     if not credentials or credentials.invalid:
@@ -48,7 +51,7 @@ def get_date_from_text(text):
     return text.splitlines()[0].lstrip('0 #')
 
 def get_calendarid():
-    jsonfile = open('data/calendar.json')
+    jsonfile = open(CALENDAR_CONFIG)
     calendar_id = json.load(jsonfile)['id']
     jsonfile.close()
     return calendar_id
@@ -89,7 +92,10 @@ def _test_text():
     from datetime import date
     hud_alert('Running with test data ...\n', 'success', 1)
     today = date.today().strftime('%Y-%m-%d')
-    return '# %s \n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' % today
+    return ('# %s \n Lorem ipsum dolor sit amet, '
+            'consectetur adipisicing elit, sed do eiusmod, '
+            'tempor incididunt ut labore et dolore magna, '
+            'aliqua.' % today)
 
 def show_share_warning():
     hud_alert('This script is intended to be run from the sharing extension', 'error')
