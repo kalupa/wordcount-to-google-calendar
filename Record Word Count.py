@@ -30,11 +30,11 @@ DATA_PATH = os.path.join(BASE_DIR, 'Documents/data')
 CLIENT_SECRET_FILE = os.path.join(DATA_PATH, 'client_secret.json')
 CREDENTIAL_PATH = os.path.join(DATA_PATH, 'credentials-calendar.json')
 CALENDAR_CONFIG = os.path.join(DATA_PATH, 'calendar.json')
-    
+
 def get_credentials():
     store = ofile.Storage(CREDENTIAL_PATH)
     credentials = store.get()
-    
+
     if not credentials or credentials.invalid:
         flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
@@ -43,10 +43,10 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def count_words(text):    
+def count_words(text):
     stripped_text = text.strip(string.punctuation)
     return len(stripped_text.split())
-    
+
 def get_date_from_text(text):
     return text.splitlines()[0].lstrip('0 #')
 
@@ -62,8 +62,8 @@ def create_calendar_event_from_text(text):
         "end": event_date,
         "start": event_date,
         "summary": '%i Words' % count_words(text)
-    }   
-    
+    }
+
 def create_events_api_object():
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
@@ -74,15 +74,15 @@ def _test_event_response(event):
     import time
     time.sleep(3)
     return event
-    
+
 def event_response(event):
     events = create_events_api_object()
     query = events.insert(calendarId=get_calendarid(), body=event)
     return query.execute()
-            
+
 def insert_daily_word_count_event(text):
     word_count_event = create_calendar_event_from_text(text)
-    
+
     if appex.is_running_extension():
         return event_response(word_count_event)
     else:
@@ -100,21 +100,21 @@ def _test_text():
 def show_share_warning():
     hud_alert('This script is intended to be run from the sharing extension', 'error')
     return
-    
+
 def real_text():
     hud_alert('Running ...', 'success', 1)
     return appex.get_text()
-    
+
 def main():
     if not appex.is_running_extension():
-        return show_share_warning()        
+        return show_share_warning()
         #text = _test_text()
     else:
         text = real_text()
-        
+
     if text:
         result = insert_daily_word_count_event(text)
-        hud_alert('Posted %s' % result['summary'], result['start']['date'])        
+        hud_alert('Posted %s' % result['summary'], result['start']['date'])
     else:
         hud_alert('No input text found', 'error')
 
