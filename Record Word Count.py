@@ -4,22 +4,19 @@
 from __future__ import print_function
 from __future__ import absolute_import
 import argparse
-import datetime
-import httplib2
 import json
 import os
 import string
+import httplib2
 
 # google modules
 from googleapiclient import discovery
-import oauth2client
 from oauth2client import file as ofile
 from oauth2client import client
 from oauth2client import tools
 
 # pythonista modules
 import appex
-import clipboard
 from console import hud_alert
 
 APPLICATION_NAME = 'Daily Word Count Logger'
@@ -40,7 +37,7 @@ def get_credentials():
         flow.user_agent = APPLICATION_NAME
         flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
         credentials = tools.run_flow(flow, store, flags)
-        print('Storing credentials to ' + credential_path)
+        print('Storing credentials to ' + CREDENTIAL_PATH)
     return credentials
 
 def count_words(text):
