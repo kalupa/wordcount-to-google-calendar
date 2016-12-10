@@ -8,6 +8,7 @@ import json
 import os
 import string
 import httplib2
+from datetime import date
 
 # google modules
 from googleapiclient import discovery
@@ -18,18 +19,15 @@ from oauth2client import tools
 # pythonista modules
 import appex
 from console import hud_alert
-import console
 
-APPLICATION_NAME = 'Daily Word Count Logger'
+APPLICATION_NAME = 'NaNoWriMo Daily Word Count Logger'
 
 SCOPES = 'https://www.googleapis.com/auth/calendar'
 BASE_DIR = os.path.expanduser('~')
 DATA_PATH = os.path.join(BASE_DIR, 'Documents/data')
 CLIENT_SECRET_FILE = os.path.join(DATA_PATH, 'client_secret.json')
 CREDENTIAL_PATH = os.path.join(DATA_PATH, 'credentials-calendar.json')
-CALENDAR_CONFIG = os.path.join(DATA_PATH, 'calendar.json')
-
-TEST_FILE = os.path.join(DATA_PATH, 'test-file.md')
+CALENDAR_CONFIG = os.path.join(DATA_PATH, 'calendar-nanowrimo.json')
 
 def get_credentials():
     store = ofile.Storage(CREDENTIAL_PATH)
@@ -57,7 +55,7 @@ def get_calendarid():
     return calendar_id
 
 def create_calendar_event_from_text(text):
-    event_date = {"date": get_date_from_text(text)}
+    event_date = {"date": date.today().strftime('%Y-%m-%d')}
     return {
         "end": event_date,
         "start": event_date,
@@ -91,13 +89,12 @@ def insert_daily_word_count_event(text):
 def _test_text():
     from datetime import date
     hud_alert('Running with test data ...\n', 'success', 1)
-    return TEST_TEXT
-    #today = date.today().strftime('%Y-%m-%d')
-    #return ('# %s \n Lorem ipsum dolor sit amet, '
-    #        'consectetur adipisicing elit, sed do eiusmod, '
-    #        'tempor incididunt ut labore et dolore magna, '
-    #        'words-with-hyphens should be separated, '
-    #        'aliqua.' % today)
+    today = date.today().strftime('%Y-%m-%d')
+    return ('# %s \n Lorem ipsum dolor sit amet, '
+            'consectetur adipisicing elit, sed do eiusmod, '
+            'tempor incididunt ut labore et dolore magna, '
+            'words-with-hyphens should be separated, '
+            'aliqua.' % today)
 
 def show_share_warning():
     hud_alert('This script is intended to be run from the sharing extension', 'error')
@@ -114,7 +111,6 @@ def main():
     else:
         text = real_text()
 
-#    console.alert(text)
     if text:
         result = insert_daily_word_count_event(text)
         hud_alert('Posted %s' % result['summary'], result['start']['date'])
